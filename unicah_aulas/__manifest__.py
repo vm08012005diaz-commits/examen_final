@@ -4,7 +4,7 @@
     "summary": "Gestion de reservas de aulas universitarias",
     "category": "Services",
     "author": "Madeline Lisbeth Perez Diz - 0801200511691",
-    "depends": ["base", "resource"],
+    "depends": ["base", "resource", "mail"],
     "data": [
         "security/ir.access.csv",
         "views/aula_reserva_views.xml",
