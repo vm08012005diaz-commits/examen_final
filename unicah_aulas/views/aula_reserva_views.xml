@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="aula_reserva_view_list" model="ir.ui.view">
+        <field name="name">unicah.aula.reserva.list</field>
+        <field name="model">unicah.aula.reserva</field>
+        <field name="arch" type="xml">
+            <list decoration-success="estado == 'confirmada'" decoration-muted="estado == 'cancelada'">
+                <field name="name"/>
+                <field name="aula_id"/>
+                <field name="solicitante_id"/>
+                <field name="fecha_inicio"/>
+                <field name="fecha_fin"/>
+                <field name="duracion_horas" sum="Horas totales"/>
+                <field name="estado" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="aula_reserva_view_form" model="ir.ui.view">
+        <field name="name">unicah.aula.reserva.form</field>
+        <field name="model">unicah.aula.reserva</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirmar" string="Confirmar" type="object" class="btn-primary"
+                            invisible="estado != 'borrador'"/>
+                    <button name="action_cancelar" string="Cancelar" type="object"
+                            invisible="estado == 'cancelada'"/>
+                    <button name="action_borrador" string="Volver a borrador" type="object"
+                            invisible="estado != 'cancelada'"/>
+                    <field name="estado" widget="statusbar" statusbar_visible="borrador,confirmada,cancelada"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="aula_id"/>
+                            <field name="solicitante_id"/>
+                        </group>
+                        <group>
+                            <field name="fecha_inicio"/>
+                            <field name="fecha_fin"/>
+                            <field name="duracion_horas"/>
+                        </group>
+                    </group>
+                    <group><field name="proposito" placeholder="Clase, examen, reunion..."/></group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="aula_reserva_view_search" model="ir.ui.view">
+        <field name="name">unicah.aula.reserva.search</field>
+        <field name="model">unicah.aula.reserva</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="aula_id"/>
+                <field name="solicitante_id"/>
+                <filter name="confirmadas" string="Confirmadas" domain="[('estado', '=', 'confirmada')]"/>
+                <group>
+                    <filter name="por_aula" string="Aula" context="{'group_by': 'aula_id'}"/>
+                    <filter name="por_estado" string="Estado" context="{'group_by': 'estado'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="aula_reserva_action" model="ir.actions.act_window">
+        <field name="name">Reservas de aulas</field>
+        <field name="res_model">unicah.aula.reserva</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="aula_reserva_view_search"/>
+    </record>
+    <menuitem id="aula_reserva_root_menu" name="Reserva de aulas" sequence="25"/>
+    <menuitem id="aula_reserva_menu" name="Reservas" parent="aula_reserva_root_menu"
+              action="aula_reserva_action" sequence="10"/>
+</odoo>

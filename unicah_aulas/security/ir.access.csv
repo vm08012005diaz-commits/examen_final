@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_aula_reserva_user,unicah.aula.reserva user,unicah.aula.reserva,base.group_user,cru,
+access_aula_reserva_admin,unicah.aula.reserva admin,unicah.aula.reserva,base.group_system,crud,
